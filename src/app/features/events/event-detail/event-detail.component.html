@@ -1,0 +1,100 @@
+<div class="container mt-4">
+    <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+    </div>
+
+    <div *ngIf="!loading && event" class="row">
+        <!-- Event Details -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">{{ event.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ event.description }}</p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Event Details</h5>
+                            <p><strong>Location:</strong> {{ event.location }}</p>
+                            <p><strong>Start:</strong> {{ event.startTime | date:'medium' }}</p>
+                            <p><strong>End:</strong> {{ event.endTime | date:'medium' }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <div class="mt-4">
+                        <button *ngIf="!showRegistrationForm" class="btn btn-primary"
+                            (click)="toggleRegistrationForm()">
+                            Register for this Event
+                        </button>
+
+                        <div *ngIf="showRegistrationForm" class="card mt-3">
+                            <div class="card-header">
+                                <h5>Register for Event</h5>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="name" formControlName="name"
+                                            [class.is-invalid]="registrationForm.get('name')?.invalid && registrationForm.get('name')?.touched">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" formControlName="email"
+                                            [class.is-invalid]="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="phoneNumber" class="form-label">Phone Number (Optional)</label>
+                                        <input type="tel" class="form-control" id="phoneNumber"
+                                            formControlName="phoneNumber">
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-secondary"
+                                            (click)="toggleRegistrationForm()">Cancel</button>
+                                        <button type="submit" class="btn btn-primary"
+                                            [disabled]="registrationForm.invalid || regLoading">
+                                            <span *ngIf="regLoading"
+                                                class="spinner-border spinner-border-sm me-2"></span>
+                                            Register
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registrations List (for Event Creators) -->
+        <div *ngIf="isEventCreator" class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Registrations ({{ registrations.length }})</h5>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="registrations.length === 0" class="text-center">
+                        <p>No registrations yet.</p>
+                    </div>
+
+                    <div *ngFor="let reg of registrations" class="mb-2 p-2 border rounded">
+                        <strong>{{ reg.name }}</strong><br>
+                        <small class="text-muted">{{ reg.email }}</small><br>
+                        <small *ngIf="reg.phoneNumber">{{ reg.phoneNumber }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

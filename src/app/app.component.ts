@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `
+    <app-navbar></app-navbar>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  `
 })
 export class AppComponent {
-  title = 'event-management-frontend';
+  constructor(public authService: AuthService) { }
 }

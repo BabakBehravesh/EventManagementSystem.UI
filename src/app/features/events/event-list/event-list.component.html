@@ -1,0 +1,43 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Events</h2>
+        <button *ngIf="isEventCreator" routerLink="/events/create" class="btn btn-primary">
+            Create Event
+        </button>
+    </div>
+
+    <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+    </div>
+
+    <div class="row">
+        <div *ngFor="let event of events" class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="card-text">{{ event.description | slice:0:100 }}{{ event.description.length > 100 ? '...'
+                        : '' }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
+                    <p class="card-text">
+                        <strong>Date:</strong> {{ event.startTime | date:'medium' }}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a [routerLink]="['/events', event.id]" class="btn btn-outline-primary btn-sm">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && events.length === 0" class="text-center">
+        <p>No events found.</p>
+    </div>
+</div>

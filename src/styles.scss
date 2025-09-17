@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/* Import Bootstrap */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+/* Custom styles */
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
