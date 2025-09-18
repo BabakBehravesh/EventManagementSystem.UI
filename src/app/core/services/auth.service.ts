@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -17,6 +18,10 @@ export interface RegisterRequest {
 export interface AuthResponse {
     token: string;
     message: string;
+}
+
+export interface DecodedToken {
+    email?: string
 }
 
 @Injectable({ providedIn: 'root' })
@@ -60,6 +65,19 @@ export class AuthService {
 
         const decodedToken = this.jwtHelper.decodeToken(token);
         return decodedToken.role || [];
+    }
+
+    getUserEmail(): string | null {
+        const token = this.getToken();
+        if (!token) return null;
+
+        try {
+            const decoded = jwtDecode<DecodedToken>(token);
+            return decoded.email || null;
+        }
+        catch {
+            return null;
+        }
     }
 
     isEventCreator(): boolean {

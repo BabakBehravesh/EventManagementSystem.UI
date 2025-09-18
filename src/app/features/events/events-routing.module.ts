@@ -5,9 +5,9 @@ import { EventCreateComponent } from './event-create/event-create.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 
 const routes: Routes = [
-  { path: 'create', component: EventCreateComponent }, // Specific first
-  { path: ':id', component: EventDetailComponent },    // Parameter second  
-  { path: '', component: EventListComponent, pathMatch: 'full' } // Default last
+  { path: 'events/create', component: EventCreateComponent },
+  { path: 'events/:id', component: EventDetailComponent },
+  { path: 'events', component: EventListComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

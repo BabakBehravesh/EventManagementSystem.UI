@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './features/auth/auth.module';
 import { EventsModule } from './features/events/events.module';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -30,6 +31,7 @@ export function tokenGetter() {
     AuthModule,
     EventsModule,
     AppRoutingModule,
+    NgbModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

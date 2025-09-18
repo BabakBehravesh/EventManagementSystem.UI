@@ -33,6 +33,7 @@ export class EventService {
     getEventById(id: number | string): Observable<Event> {
         console.log("Is that you " + `${this.apiUrl}/events/`);
         const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+
         console.log("Is that you?" + numericId);
         if (isNaN(numericId)) {
             throw new Error('Invalid event ID: ' + id);
