@@ -19,6 +19,7 @@ export class EventDetailComponent implements OnInit {
     error = '';
     showRegistrationForm = false;
     isEventCreator = false;
+    isEventParticipant = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -39,6 +40,7 @@ export class EventDetailComponent implements OnInit {
         if (eventId) {
             this.loadEvent(+eventId);
             this.isEventCreator = this.authService.isEventCreator();
+            this.isEventParticipant = this.authService.isEventParticipant();
             if (this.isEventCreator) {
                 this.loadRegistrations(+eventId);
             }

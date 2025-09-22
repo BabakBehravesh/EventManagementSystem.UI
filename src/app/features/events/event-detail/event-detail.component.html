@@ -28,12 +28,13 @@
                         </div>
                     </div>
 
-                    <!-- Registration Form -->
-                    <div class="mt-4">
-                        <button *ngIf="!showRegistrationForm" class="btn btn-primary"
-                            (click)="toggleRegistrationForm()">
-                            Register for this Event
-                        </button>
+                    <!-- Registration Form - Only show when isEventParticipant is true -->
+                    <div *ngIf="isEventParticipant" class="mt-4">
+                        <div *ngIf="!showRegistrationForm">
+                            <button class="btn btn-primary" (click)="toggleRegistrationForm()">
+                                Register for this Event
+                            </button>
+                        </div>
 
                         <div *ngIf="showRegistrationForm" class="card mt-3">
                             <div class="card-header">
@@ -72,6 +73,11 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Message for non-participants -->
+                    <div *ngIf="!isEventParticipant && !isEventCreator" class="mt-4 alert alert-info">
+                        You need Event Participant role to register for events.
                     </div>
                 </div>
             </div>

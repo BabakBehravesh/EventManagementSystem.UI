@@ -2,15 +2,14 @@
     <div class="container">
         <a class="navbar-brand" routerLink="/">Event Management</a>
         <ng-container *ngIf="authService.isAuthenticated()">
-            <label style="color: aqua;">Admin: <i>{{ authService.getUserEmail() }}</i></label>
+            <label style="color: aqua;">User: <i>{{ authService.getUserEmail() }}</i></label>
         </ng-container>
         <div class="navbar-nav ms-auto">
             <a class="nav-link" routerLink="/events" routerLinkActive="active">Events</a>
+            <a *ngIf="authService.isEventCreator();" class="nav-link" routerLink="/auth/register">Register</a>
 
             <ng-container *ngIf="authService.isAuthenticated(); else notAuthenticated">
-                <a class="nav-link" routerLink="/auth/register"
-                    ngb="Register New Admin">Register</a>
-                <button class="btn btn-outline-light btn-sm" (click)="logout()">Logout</button>
+                <button class="btn btn-outline-light btn-sm" (click)="logout()" routerLink="/auth/login">Logout</button>
             </ng-container>
 
             <ng-template #notAuthenticated>

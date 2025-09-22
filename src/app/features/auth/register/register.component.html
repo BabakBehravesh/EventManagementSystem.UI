@@ -34,14 +34,35 @@
                                 [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Roles <span class="text-danger">*</span></label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="eventCreator"
+                                    (change)="onRoleChange($event, 0)">
+                                <label class="form-check-label" for="eventCreator">
+                                    Event Creator
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="eventParticipant"
+                                    (change)="onRoleChange($event, 1)">
+                                <label class="form-check-label" for="eventParticipant">
+                                    Event Participant
+                                </label>
+                            </div>
+                            <div *ngIf="showRolesError" class="alert alert-warning mt-2 py-2 small">
+                                <i class="bi bi-exclamation-triangle"></i> Please select at least one role.
+                            </div>
+                        </div>
+
                         <div *ngIf="errorMessage" class="alert alert-danger">
                             {{ errorMessage }}
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100"
-                            [disabled]="registerForm.invalid || loading">
+                            [disabled]="registerForm.invalid || loading || selectedRoles.length === 0">
                             <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status"></span>
-                            Register
+                            {{ selectedRoles.length === 0 ? 'Select at least one role to register' : 'Register' }}
                         </button>
                     </form>
 

@@ -43,6 +43,7 @@ export class AuthService {
     }
 
     register(userData: RegisterRequest): Observable<any> {
+        console.log("Is sent?");
         return this.http.post(`${this.apiUrl}/auth/register`, userData);
     }
 

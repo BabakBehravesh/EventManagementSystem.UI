@@ -6,12 +6,13 @@ import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   loading = false;
+  selectedRoles: number[] = [];
+  showRolesError: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -25,12 +26,42 @@ export class RegisterComponent {
     });
   }
 
+  onRoleChange(event: any, roleValue: number): void {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      if (!this.selectedRoles.includes(roleValue)) {
+        this.selectedRoles.push(roleValue);
+      }
+    } else {
+      const index = this.selectedRoles.indexOf(roleValue);
+      if (index > -1) {
+        this.selectedRoles.splice(index, 1);
+      }
+    }
+
+    this.selectedRoles.sort();
+
+    this.showRolesError = this.selectedRoles.length === 0;
+  }
+
   onSubmit(): void {
+    if (this.selectedRoles.length === 0) {
+      this.showRolesError = true;
+      return;
+    }
+
     if (this.registerForm.valid) {
       this.loading = true;
       const { email, password } = this.registerForm.value;
 
-      this.authService.register({ email, password }).subscribe({
+      const registerData = {
+        email: email,
+        password: password,
+        userRoles: this.selectedRoles
+      };
+
+      this.authService.register(registerData).subscribe({
         next: () => {
           this.router.navigate(['/login']);
           this.loading = false;
